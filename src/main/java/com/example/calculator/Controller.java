@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/calculator")
 public class Controller {
 
-    private CalculatorService calculatorService;
+    private final CalculatorService calculatorService;
 
     public Controller(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
@@ -20,20 +20,23 @@ public class Controller {
     }
 
     @GetMapping(path = "/plus")
-    public String plus(@RequestParam int num1, @RequestParam int num2){
-        return calculatorService.plus(num1, num2);
+    public String plus(@RequestParam(name = "num1", required = false) Integer num1, @RequestParam(name = "num2", required = false) Integer num2){
+       if(num1 == null || num2 == null){
+           return "Please add parameters";
+       }
+        return num1 +  " + " + num2 +  " = " + calculatorService.plus(num1, num2);
     }
     @GetMapping(path = "/minus")
     public String minus(@RequestParam int num1, @RequestParam int num2){
-        return calculatorService.minus(num1, num2);
+        return num1 +  " - " + num2 +  " = " + calculatorService.minus(num1, num2);
     }
     @GetMapping(path = "/multiply")
     public String multiply(@RequestParam int num1, @RequestParam int num2){
-        return calculatorService.multiply(num1, num2);
+        return num1 +  " * " + num2 +  " = " + calculatorService.multiply(num1, num2);
     }
     @GetMapping(path = "/divide")
     public String divide(@RequestParam int num1, @RequestParam int num2){
-        return calculatorService.divide(num1, num2);
+        return num1 +  " / " + num2 +  " = " + calculatorService.divide(num1, num2);
     }
 
 
